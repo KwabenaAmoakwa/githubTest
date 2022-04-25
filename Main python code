@@ -1,0 +1,86 @@
+import tkinter as tk
+from tkinter import PhotoImage
+from PIL import Image
+from PIL import ImageTk
+
+from setuptools import Command
+Height=300
+Width=300
+
+
+def stock_updation(entry,entry2):
+    global item_name
+    item_name,item_qty=str(entry),int(entry2)
+    item_name+=' '
+    if item_name==' 'and item_qty==None:
+         label4['text']='Please insert Item name and quantity'
+    for i in range(item_qty):
+        fhand=open('library','a')
+        fhand.write(item_name.lower())
+    fhand.close()
+    label4['text']='Stock Updated!!'
+
+def available_qty(entry):
+    inv_dic={} 
+    fhand=open('library','r')
+    for line in fhand:
+        g=line.split()
+    for word in g:
+        inv_dic[word]= inv_dic.get(word,0)+1
+    Item_search=str(entry)
+    label4['text']='Available quantity: '+ str(inv_dic[Item_search.lower()])
+    
+def exit():
+    label4['text']='Bye'
+root=tk.Tk()
+root.title("Dcypha-Labs")
+
+# # image=Image.open('5-52302_abstract-background-png-free-pic-abstract-background-png.png')
+photo = tk.PhotoImage(file='5-52302_abstract-background-png-free-pic-abstract-background-png.png')
+background=tk.Label(root, image=photo)
+background.place(relx=0,rely=0,relwidth=1,relheight=1)
+
+# canvas=tk.Canvas(root, height=Height, width=Width, )
+# canvas.pack()
+canvas_frame=tk.Frame(root)
+frame=tk.Frame(root, bg='blue')
+frame.place(relwidth=0.3, relheight=1)
+label=tk.Label(frame, text='INVENTORY\nMANAGMENT\n SYSTEM', bg='blue')
+label.pack()
+
+button=tk.Button(frame, text='Stock Updation', bg='light blue',  relief='groove', command=lambda: stock_updation(entry.get(), entry2.get()))
+button.place(relx=0.1, rely=0.1, relwidth=0.6, relheight=0.25)
+button2=tk.Button(frame, text='Check remaining stock', bg='light blue', relief='groove', command=lambda: available_qty(entry.get()))
+button2.place(relx=0.1, rely=0.4, relwidth=0.6, relheight=0.25)
+button3=tk.Button(frame, text='Exit', bg='light blue', relief='groove', command=lambda: exit())
+button3.place(relx=0.1, rely=0.7, relwidth=0.6, relheight=0.25)
+
+frame2=tk.Frame(root, bg='red', bd=3)
+frame2.place(relx=0.4, rely=0.1, relwidth=0.4, relheight=0.05)
+entry=tk.Entry(frame2)
+entry.place(relx=0.4, relwidth=0.6, relheight=1)
+label2=tk.Label(frame2, bg='yellow', text='Item Name')
+label2.place(relx=0.005, relwidth=0.4, relheight=1)
+
+frame3=tk.Frame(root, bg='red', bd=3)
+frame3.place(relx=0.4, rely=0.3, relwidth=0.4, relheight=0.05)
+entry2=tk.Entry(frame3)
+entry2.place(relx=0.4, relwidth=0.6, relheight=1)
+label3=tk.Label(frame3, bg='yellow', text='Item Quantity')
+label3.place(relx=0.005, relwidth=0.4, relheight=1)
+
+
+
+
+
+frame4=tk.Frame(root, bg='red', bd=3)
+frame4.place(relx=0.4, rely=0.5, relwidth=0.5, relheight=0.4)
+label4=tk.Label(frame4, bg='white')
+label4.place(relwidth=1, relheight=1)
+
+
+
+
+
+
+root.mainloop()
